@@ -1,0 +1,36 @@
+get_pods:
+    kubectl get pods -n demo-hello
+get_services:
+    kubectl get services -n demo-hello
+
+reload_all:
+    just load_frontend
+    just load_backend
+    just load_nginx
+    just restart_frontend
+    just restart_backend
+    just restart_nginx
+
+apply_frontend:
+    kubectl apply -f k8s/frontend.yaml
+load_frontend:
+    kind load docker-image demo-frontend:latest --name dev-cluster
+restart_frontend:
+    kubectl rollout restart deployment/demo-frontend -n demo-hello
+    
+apply_backend:
+    kubectl apply -f k8s/backend.yaml
+load_backend:
+    kind load docker-image demo-backend:latest --name dev-cluster
+restart_backend:
+    kubectl rollout restart deployment/demo-backend -n demo-hello
+    
+apply_nginx:
+    kubectl apply -f k8s/nginx.yaml
+load_nginx:
+    kind load docker-image demo-nginx:latest --name dev-cluster
+restart_nginx:
+    kubectl rollout restart deployment/demo-nginx -n demo-hello
+
+port_forward:
+    kubectl port-forward -n demo-hello service/demo-nginx 8880:80 --address 0.0.0.0

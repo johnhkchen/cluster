@@ -1,0 +1,116 @@
+---
+// Fetch data from FastAPI backend via nginx proxy
+// Always use internal service URL since this runs on the server
+const API_URL = 'http://demo-nginx';
+
+let healthData = null;
+let itemsData = null;
+
+try {
+  console.log('Fetching from API_URL:', API_URL);
+  
+  const [healthResponse, itemsResponse] = await Promise.all([
+    fetch(`${API_URL}/health`),
+    fetch(`${API_URL}/items`)
+  ]);
+
+  console.log('Health response status:', healthResponse.status);
+  console.log('Items response status:', itemsResponse.status);
+
+  if (healthResponse.ok) {
+    healthData = await healthResponse.json();
+  }
+  
+  if (itemsResponse.ok) {
+    itemsData = await itemsResponse.json();
+  }
+} catch (error) {
+  console.error('Failed to fetch data:', error);
+  console.error('API_URL:', API_URL);
+}
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Stack - Astro Frontend</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        line-height: 1.6;
+      }
+      .card {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        border: 1px solid #e9ecef;
+      }
+      .status {
+        color: #28a745;
+        font-weight: bold;
+      }
+      .error {
+        color: #dc3545;
+        font-weight: bold;
+      }
+      .grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🚀 Demo Stack - Kubernetes Edge Computing</h1>
+
+    <div class="card">
+      <h2>Backend Health Status</h2>
+      {healthData ? (
+        <div>
+          <p class="status">✅ Backend Connected</p>
+          <p><strong>Status:</strong> {healthData.status}</p>
+          <p><strong>Python Version:</strong> {healthData.python_version}</p>
+          <p><strong>Timestamp:</strong> {healthData.timestamp}</p>
+        </div>
+      ) : (
+        <p class="error">❌ Backend Unavailable</p>
+      )}
+    </div>
+
+    <div class="card">
+      <h2>Edge Device Data</h2>
+      {itemsData && itemsData.length > 0 ? (
+        <div class="grid">
+          {itemsData.map((item: any) => (
+            <div class="card">
+              <h3>{item.name}</h3>
+              <p><strong>Type:</strong> {item.type}</p>
+              <p><strong>Location:</strong> {item.location}</p>
+              <p><strong>Status:</strong> {item.status}</p>
+              <p><strong>Last Updated:</strong> {new Date(item.last_updated).toLocaleString()}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>No device data available</p>
+      )}
+    </div>
+
+    <div class="card">
+      <h2>About This Demo</h2>
+      <p>This is a demo application showing:</p>
+      <ul>
+        <li>Astro frontend with server-side rendering</li>
+        <li>FastAPI backend with Python 3.13</li>
+        <li>Kubernetes deployment ready</li>
+        <li>Edge computing architecture</li>
+      </ul>
+    </div>
+  </body>
+</html>

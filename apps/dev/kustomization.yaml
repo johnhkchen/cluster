@@ -5,6 +5,3 @@ resources:
 - ../base/demo-hello
 
 namespace: demo-hello
-
-commonLabels:
-  environment: dev

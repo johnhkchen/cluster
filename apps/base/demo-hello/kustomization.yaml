@@ -6,9 +6,3 @@ resources:
 - backend.yaml
 - frontend.yaml
 - nginx.yaml
-
-labels:
-- includeSelectors: true
-  pairs:
-    app.kubernetes.io/name: demo-hello
-    app.kubernetes.io/version: v1.0.0

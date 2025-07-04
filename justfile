@@ -6,3 +6,6 @@ flux_reconcile:
 
 get_pods:
     kubectl get pods -n flux-system
+
+watch_kustomizations:
+    flux get kustomizations --watch

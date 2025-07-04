@@ -36,7 +36,7 @@ items_db = [
         "type": "edge-compute-simulation",
         "location": "Simulated Edge Site A",
         "status": "simulated online",
-        "last_updated": "2025-01-04T12:00:00Z"
+        "last_updated": "2025-07-04T05:43:05Z"
     },
     {
         "id": 2, 
@@ -44,7 +44,7 @@ items_db = [
         "type": "edge-sensor-simulation",
         "location": "Simulated Edge Site B", 
         "status": "simulated online",
-        "last_updated": "2025-01-04T12:00:00Z"
+        "last_updated": "2025-07-04T05:43:07Z"
     },
     {
         "id": 3, 
@@ -52,7 +52,7 @@ items_db = [
         "type": "development-cluster",
         "location": "Local Development",
         "status": "running with GitOps",
-        "last_updated": "2025-01-04T12:00:00Z"
+        "last_updated": "2025-07-04T05:43:06Z"
     },
 ]
 

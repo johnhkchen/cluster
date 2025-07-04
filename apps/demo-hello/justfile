@@ -3,13 +3,26 @@ get_pods:
 get_services:
     kubectl get services -n demo-hello
 
-reload_all:
+
+rebuild_frontend:
+    cd frontend && just build
     just load_frontend
-    just load_backend
-    just load_nginx
     just restart_frontend
+
+rebuild_backend:
+    cd backend && just build
+    just load_backend
     just restart_backend
+
+rebuild_nginx:
+    cd nginx && just build
+    just load_nginx
     just restart_nginx
+
+rebuild:
+    just rebuild_frontend
+    just rebuild_backend
+    just rebuild_nginx
 
 apply_frontend:
     kubectl apply -f k8s/frontend.yaml
@@ -17,7 +30,8 @@ load_frontend:
     kind load docker-image demo-frontend:latest --name dev-cluster
 restart_frontend:
     kubectl rollout restart deployment/demo-frontend -n demo-hello
-    
+
+        
 apply_backend:
     kubectl apply -f k8s/backend.yaml
 load_backend:

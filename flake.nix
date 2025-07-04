@@ -1,5 +1,5 @@
 {
-  description = "Reproducible Kubernetes development environment with kind, k3s, FluxCD, and Ansible";
+  description = "Reproducible cloud-to-edge Kubernetes development environment with GitOps and modern application stack";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -35,8 +35,9 @@
           alias flk='flux get kustomizations'
           alias flh='flux get helmreleases'
           
-          echo "Kubernetes development environment loaded!"
+          echo "Cloud-to-edge development environment loaded!"
           echo "Available tools: kubectl, kind, k3s, flux, ansible, docker, helm"
+          echo "Application stack: Python 3.13, uv, Node.js LTS, npm"
           echo "Use 'kubectl-help' for common aliases"
         '';
 
@@ -134,8 +135,15 @@
             docker-compose
             podman
             
+            # Application development tools
+            python313          # Python 3.13 for FastAPI backend
+            uv                 # Modern Python package manager
+            nodejs             # Node.js LTS for Astro frontend
+            nodePackages.npm   # npm package manager
+            
             # Development tools
             git
+            gh                 # GitHub CLI for GitOps
             jq
             yq-go
             curl
@@ -181,17 +189,20 @@
             # Initialize environment
             setup-k8s-env
             
-            echo "=== Kubernetes Development Environment ==="
-            echo "Tools available:"
+            echo "=== Cloud-to-Edge Development Environment ==="
+            echo "Kubernetes tools:"
             echo "  kubectl $(kubectl version --client --short 2>/dev/null | cut -d' ' -f3)"
             echo "  kind $(kind version 2>/dev/null)"
-            echo "  k3s $(k3s --version 2>/dev/null | head -1 | cut -d' ' -f3)"
             echo "  flux $(flux version --client 2>/dev/null | grep 'flux version' | cut -d' ' -f3)"
-            echo "  ansible $(ansible --version 2>/dev/null | head -1 | cut -d' ' -f2)"
-            echo "  helm $(helm version --short 2>/dev/null)"
+            echo ""
+            echo "Application development:"
+            echo "  python $(python --version 2>/dev/null | cut -d' ' -f2)"
+            echo "  uv $(uv --version 2>/dev/null | cut -d' ' -f2)"
+            echo "  node $(node --version 2>/dev/null)"
+            echo "  npm $(npm --version 2>/dev/null)"
             echo ""
             echo "Run 'kubectl-help' for available aliases"
-            echo "Run 'setup-k8s-env' to reinitialize project structure"
+            echo "Ready for demo-hello development!"
           '';
         };
 
@@ -201,12 +212,33 @@
             kubectl
             kind
             fluxcd
+            docker
             git
             jq
           ];
           shellHook = ''
             echo "=== Minimal Kubernetes Environment ==="
-            echo "Available: kubectl, kind, flux, git, jq"
+            echo "Available: kubectl, kind, flux, docker, git, jq"
+          '';
+        };
+
+        devShells.app = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            # Application development only
+            python313
+            uv
+            nodejs
+            nodePackages.npm
+            docker
+            git
+            jq
+            curl
+            tree
+          ];
+          shellHook = ''
+            echo "=== Application Development Environment ==="
+            echo "Available: Python 3.13, uv, Node.js LTS, npm, docker, git"
+            echo "Perfect for demo-hello application development"
           '';
         };
 

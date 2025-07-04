@@ -28,30 +28,30 @@ class ItemResponse(BaseModel):
     status: str
     last_updated: str
 
-# Sample data
+# Mock device data for development
 items_db = [
     {
         "id": 1, 
-        "name": "Jetson Orin NX", 
-        "type": "edge-compute",
-        "location": "Edge Site A",
-        "status": "online",
+        "name": "Mock Jetson Orin NX", 
+        "type": "edge-compute-simulation",
+        "location": "Simulated Edge Site A",
+        "status": "simulated online",
         "last_updated": "2025-01-04T12:00:00Z"
     },
     {
         "id": 2, 
-        "name": "Raspberry Pi 5", 
-        "type": "edge-sensor",
-        "location": "Edge Site B", 
-        "status": "online",
+        "name": "Mock Raspberry Pi 5", 
+        "type": "edge-sensor-simulation",
+        "location": "Simulated Edge Site B", 
+        "status": "simulated online",
         "last_updated": "2025-01-04T12:00:00Z"
     },
     {
         "id": 3, 
-        "name": "K3s Cloud Cluster", 
-        "type": "cloud-cluster",
-        "location": "US-East-1",
-        "status": "healthy",
+        "name": "Kind Local Cluster", 
+        "type": "development-cluster",
+        "location": "Local Development",
+        "status": "running with GitOps",
         "last_updated": "2025-01-04T12:00:00Z"
     },
 ]
@@ -59,9 +59,10 @@ items_db = [
 @app.get("/health", response_model=HealthResponse)
 async def health_check():
     import sys
+    import os
     from datetime import datetime
     return HealthResponse(
-        status="healthy",
+        status="healthy - deployed via GitOps",
         python_version=f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}",
         timestamp=datetime.now().isoformat()
     )

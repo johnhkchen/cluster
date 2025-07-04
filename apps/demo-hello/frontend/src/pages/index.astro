@@ -67,7 +67,14 @@ try {
     </style>
   </head>
   <body>
-    <h1>🚀 Demo Stack - Kubernetes Edge Computing</h1>
+    <h1>🚀 Demo Stack - GitOps Kubernetes Edge Computing</h1>
+    
+    <div class="card">
+      <h2>🔄 GitOps Deployment Status</h2>
+      <p>✅ <strong>Deployed via FluxCD:</strong> This application is automatically deployed from Git repository</p>
+      <p>📦 <strong>Stack:</strong> FastAPI (Python 3.13) + Astro (Node.js LTS) + nginx</p>
+      <p>🎯 <strong>Platform:</strong> Kind cluster with Kubernetes GitOps workflow</p>
+    </div>
 
     <div class="card">
       <h2>Backend Health Status</h2>
@@ -84,7 +91,8 @@ try {
     </div>
 
     <div class="card">
-      <h2>Edge Device Data</h2>
+      <h2>Mock Edge Device Data</h2>
+      <p><em>Note: These are simulated devices for development and testing purposes.</em></p>
       {itemsData && itemsData.length > 0 ? (
         <div class="grid">
           {itemsData.map((item: any) => (
@@ -106,10 +114,12 @@ try {
       <h2>About This Demo</h2>
       <p>This is a demo application showing:</p>
       <ul>
-        <li>Astro frontend with server-side rendering</li>
-        <li>FastAPI backend with Python 3.13</li>
-        <li>Kubernetes deployment ready</li>
-        <li>Edge computing architecture</li>
+        <li>✅ Astro frontend with server-side rendering</li>
+        <li>✅ FastAPI backend with Python 3.13 + uv</li>
+        <li>✅ Nginx reverse proxy with rate limiting</li>
+        <li>✅ Kubernetes deployment with GitOps</li>
+        <li>✅ FluxCD automated deployments</li>
+        <li>🎯 Ready for edge computing deployment</li>
       </ul>
     </div>
   </body>
